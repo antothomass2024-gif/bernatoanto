@@ -1,0 +1,686 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>CEER Journal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky masthead with a tab bar; each tab is a full page of the journal. Hero uses survey contour lines, issue info is set as a drawing title block. */
+:root{
+  --bg:#F1F4F1; --surface:#FAFCFA; --ink:#13222B; --muted:#51636B; --line:#D2DAD6;
+  --accent:#0B5D6B; --accent-ink:#FFFFFF; --tint:#E0ECEA; --signal:#B94E12; --contour:#A5BDBA;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1A1F; --surface:#15242A; --ink:#E5EEEC; --muted:#9AAFB2; --line:#2A3C42;
+  --accent:#5FC2D1; --accent-ink:#06282F; --tint:#1A2F35; --signal:#F28D52; --contour:#37555B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1A1F; --surface:#15242A; --ink:#E5EEEC; --muted:#9AAFB2; --line:#2A3C42;
+  --accent:#5FC2D1; --accent-ink:#06282F; --tint:#1A2F35; --signal:#F28D52; --contour:#37555B; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.2;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.1rem,5.4vw,3.5rem);letter-spacing:-.01em}
+h2{font-size:clamp(1.5rem,3vw,2rem)}
+h3{font-size:1.2rem}
+p{margin:0}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.02em}
+.eyebrow{font:500 .74rem/1 var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.muted{color:var(--muted)}
+
+/* masthead */
+.mast{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.mast-top{display:flex;align-items:center;gap:12px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);min-width:0}
+.brand svg{flex:none;color:var(--accent)}
+.brand b{font:700 1.25rem/1 var(--serif);letter-spacing:.01em;display:block}
+.brand span{display:block;font-size:.78rem;color:var(--muted);line-height:1.25;margin-top:3px}
+.mast-cta{margin-left:auto;flex:none}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin}
+.tabs a{flex:none;padding:10px 14px;text-decoration:none;color:var(--muted);font-weight:500;font-size:.95rem;border-bottom:3px solid transparent;white-space:nowrap}
+.tabs a:hover{color:var(--ink)}
+.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:4px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none;cursor:pointer;font-size:.95rem}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.small{padding:6px 12px;font-size:.85rem}
+
+main{padding-block:0 56px}
+.panel{padding-top:40px}
+.panel>.wrap>*+*{margin-top:28px}
+.lede{font:400 1.2rem/1.55 var(--serif);color:var(--muted);max-width:62ch}
+.pagehead{display:grid;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.pagehead .lede{padding-bottom:20px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:var(--surface)}
+.hero svg.topo{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;
+  -webkit-mask-image:linear-gradient(to right,transparent 5%,#000 60%);mask-image:linear-gradient(to right,transparent 5%,#000 60%)}
+.topo path{fill:none;stroke:var(--contour);stroke-width:1}
+.topo path.idx{stroke-width:1.8}
+.topo text{font:500 11px var(--mono);fill:var(--muted);stroke:var(--surface);stroke-width:4px;paint-order:stroke}
+.hero-in{position:relative;padding-block:56px 48px;display:grid;gap:24px;max-width:700px}
+.hero-in h1{max-width:16ch}
+.hero-in .lede{max-width:50ch}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+
+/* title block */
+.tblock{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border:1.5px solid var(--ink);background:var(--surface)}
+.tblock>div{padding:10px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.tblock dt{font:500 .68rem/1 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+.tblock dd{margin:0;font:600 1rem/1.3 var(--serif)}
+.tblock{margin:0}
+
+/* sections */
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.grid>*{min-width:0}
+.area{display:flex;flex-direction:column;gap:6px;padding:16px;border:1px solid var(--line);background:var(--surface);border-radius:4px;text-align:left;cursor:pointer}
+.area:hover{border-color:var(--accent)}
+.area strong{font:600 1.05rem/1.3 var(--serif)}
+.area span{font-size:.85rem;color:var(--muted)}
+.band{background:var(--tint);padding:24px;border-radius:4px;display:grid;gap:12px}
+.band .eyebrow{color:var(--signal)}
+.band-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+
+/* paper cards */
+.plist{display:grid;gap:14px}
+.paper{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.paper h3{font-size:1.18rem}
+.tag{display:inline-block;padding:3px 8px;border-radius:3px;background:var(--tint);color:var(--accent);font:500 .72rem/1.2 var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.tag.type{background:transparent;border:1px solid var(--signal);color:var(--signal)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.authors{font-weight:500}
+.paper details summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:.92rem;width:max-content}
+.paper details p{margin-top:8px;max-width:72ch;font-family:var(--serif);font-size:1.02rem}
+.kw{font-size:.82rem;color:var(--muted)}
+.kw span{margin-right:10px;white-space:nowrap}
+
+/* archive controls */
+.filters{display:grid;gap:12px;grid-template-columns:2fr 1fr 1fr 1fr}
+.filters>*{min-width:0}
+@media(max-width:760px){.filters{grid-template-columns:1fr 1fr}.filters .f-q{grid-column:1/-1}}
+label{display:block;font-weight:600;font-size:.88rem;margin-bottom:4px}
+input[type=text],input[type=email],input[type=search],input[type=url],select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink)}
+textarea{min-height:140px;resize:vertical;line-height:1.5}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;font-size:.85rem}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.empty{padding:32px;border:1px dashed var(--line);border-radius:4px;text-align:center;color:var(--muted)}
+
+/* two-column text */
+.cols{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:40px}
+@media(max-width:820px){.cols{grid-template-columns:minmax(0,1fr)}}
+.prose{max-width:68ch;font-family:var(--serif);font-size:1.06rem;line-height:1.7}
+.prose>*+*{margin-top:14px}
+.prose h3{margin-top:28px;font-family:var(--serif)}
+.prose ul{padding-left:1.2em}
+.prose li+li{margin-top:6px}
+.aside{border-left:3px solid var(--accent);padding-left:16px;display:grid;gap:12px;align-content:start;font-size:.95rem}
+.aside h3{font-size:1rem}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:s;border-top:1px solid var(--line)}
+.steps li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline;counter-increment:s}
+.steps li::before{content:counter(s,decimal-leading-zero);font:500 .85rem var(--mono);color:var(--signal)}
+.steps b{font-family:var(--serif);font-size:1.05rem}
+.steps .t{font:500 .78rem var(--mono);color:var(--muted);white-space:nowrap}
+@media(max-width:560px){.steps li{grid-template-columns:36px minmax(0,1fr)}.steps .t{grid-column:2}}
+
+/* board */
+.person{border:1.5px dashed var(--line);border-radius:4px;padding:16px;background:var(--surface);display:grid;gap:4px;min-width:0}
+.person .role{font:500 .72rem var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--signal)}
+.person strong{font:600 1.05rem var(--serif)}
+.person span{font-size:.88rem;color:var(--muted)}
+
+/* form */
+form.sub{display:grid;gap:18px;max-width:780px}
+.two{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+.two>*{min-width:0}
+@media(max-width:620px){.two{grid-template-columns:1fr}}
+.hint{font-size:.82rem;color:var(--muted);margin-top:4px}
+.err{color:var(--signal);font-size:.84rem;margin-top:4px;min-height:0}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:400}
+.check input{margin-top:5px;flex:none;accent-color:var(--accent)}
+.result{border:1.5px solid var(--accent);background:var(--surface);padding:20px;border-radius:4px;display:grid;gap:14px;max-width:780px}
+.result textarea{font:400 .85rem/1.5 var(--mono);min-height:260px}
+.note{padding:12px 14px;border-left:3px solid var(--signal);background:var(--tint);font-size:.92rem}
+
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 .72rem var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:var(--tint)}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.faq details{border-bottom:1px solid var(--line);padding:14px 0}
+.faq summary{cursor:pointer;font:600 1.05rem var(--serif)}
+.faq details p{margin-top:8px;color:var(--muted);max-width:68ch}
+.emailbox{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.emailbox code{font:500 1rem var(--mono);padding:8px 12px;background:var(--tint);border-radius:4px;user-select:all}
+
+footer{border-top:1px solid var(--line);background:var(--surface);padding-block:28px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;font-size:.9rem;color:var(--muted)}
+footer nav{display:flex;flex-wrap:wrap;gap:8px 18px}
+footer a{color:var(--muted)}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="mast-top">
+      <a class="brand" href="#home" data-go="home">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M3 25h28"/><path d="M6 25V14M14 25V14M22 25V14M30 25V14" stroke-width="1.5"/><path d="M3 14h28" stroke-width="2.5"/>
+          <path d="M3 30c4-3 7 3 11 0s7 3 11 0 4 1 6 0" stroke-width="1.5"/><path d="M17 3v7M13 6l4-3 4 3" stroke-width="1.5"/>
+        </svg>
+        <div><b>CEER Journal</b><span>Civil &amp; Environmental Engineering Research</span></div>
+      </a>
+      <a class="btn small mast-cta" href="#submit" data-go="submit">Submit a paper</a>
+    </div>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#home" data-go="home">Home</a>
+      <a href="#about" data-go="about">About</a>
+      <a href="#current" data-go="current">Current Issue</a>
+      <a href="#archive" data-go="archive">Archive</a>
+      <a href="#submit" data-go="submit">Submit Paper</a>
+      <a href="#board" data-go="board">Editorial Board</a>
+      <a href="#guidelines" data-go="guidelines">Author Guidelines</a>
+      <a href="#contact" data-go="contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- HOME -->
+<section class="panel" id="tab-home" style="padding-top:0">
+  <div class="hero">
+    <svg class="topo" id="contours" viewBox="0 0 900 420" preserveAspectRatio="xMaxYMid slice" aria-hidden="true"></svg>
+    <div class="wrap hero-in">
+      <span class="eyebrow">Peer-reviewed · Open access · Published twice a year</span>
+      <h1>Research that builds, protects and restores.</h1>
+      <p class="lede">CEER Journal publishes original research in structural, geotechnical, water, transportation and environmental engineering, and the construction practice that connects them.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#submit" data-go="submit">Submit your manuscript</a>
+        <a class="btn ghost" href="#current" data-go="current">Read the current issue</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap" style="padding-top:36px;display:grid;gap:40px">
+    <div style="display:grid;gap:16px">
+      <div class="row" style="justify-content:space-between"><h2>Subject areas</h2><span class="muted">Select an area to browse its papers</span></div>
+      <div class="grid" id="areas"></div>
+    </div>
+    <div style="display:grid;gap:16px">
+      <div class="row" style="justify-content:space-between"><h2>Latest papers</h2><a href="#archive" data-go="archive">Browse the full archive</a></div>
+      <div class="plist" id="latest"></div>
+    </div>
+    <div class="band">
+      <span class="eyebrow">Call for papers</span>
+      <h2>Volume 2, Issue 1 is open for submissions</h2>
+      <div class="band-row">
+        <p style="max-width:60ch">Manuscripts received by <b>15 December 2026</b> are considered for the April 2027 issue. Special interest: climate-resilient infrastructure, low-carbon materials and water security.</p>
+        <a class="btn" href="#guidelines" data-go="guidelines">Read author guidelines</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="panel" id="tab-about" hidden>
+  <div class="wrap">
+    <div class="pagehead"><span class="eyebrow">About the journal</span><h1>Aims and scope</h1>
+      <p class="lede">A venue for engineering research that can be checked, reproduced and put to work on real infrastructure and environmental problems.</p></div>
+    <div class="cols">
+      <div class="prose">
+        <p>CEER Journal is a peer-reviewed, open-access journal covering civil and environmental engineering. We publish research articles, review papers, case studies and short technical notes, with equal weight on method and on evidence from the field or laboratory.</p>
+        <h3>Topics we publish</h3>
+        <ul>
+          <li>Structural engineering, earthquake and wind engineering, bridge and building retrofit</li>
+          <li>Geotechnical engineering, ground improvement, slopes, foundations and tunnelling</li>
+          <li>Water resources, hydrology, hydraulics, flood risk and groundwater</li>
+          <li>Environmental engineering, water and wastewater treatment, solid waste, air quality</li>
+          <li>Transportation and pavement engineering</li>
+          <li>Construction management, digital construction and project delivery</li>
+          <li>Sustainable and low-carbon materials, life-cycle assessment</li>
+          <li>Climate adaptation and infrastructure resilience</li>
+        </ul>
+        <h3>What reviewers look for</h3>
+        <p>Technical soundness comes first. A paper does not need to be fashionable, but its data, assumptions and limitations must be stated clearly enough for another engineer to repeat or challenge the work. Negative and inconclusive results are welcome when the study was well designed.</p>
+      </div>
+      <aside class="aside">
+        <h3>Journal at a glance</h3>
+        <div><span class="eyebrow">Frequency</span><br>Two issues a year (April, October)</div>
+        <div><span class="eyebrow">Review</span><br>Double-blind, at least two reviewers</div>
+        <div><span class="eyebrow">Access</span><br>Open access</div>
+        <div><span class="eyebrow">Language</span><br>English</div>
+        <div><span class="eyebrow">Fees</span><br>Publication charge applies, see author guidelines</div>
+      </aside>
+    </div>
+    <div>
+      <h2 style="margin-bottom:12px">How a paper moves through review</h2>
+      <p class="muted" style="margin-bottom:14px">Review takes about 8 days, and publication follows about 2 days after acceptance.</p>
+      <ol class="steps">
+        <li><div><b>Submission check</b><br><span class="muted">Scope, formatting, similarity screening, completeness of author details.</span></div><span class="t">≈ 1 day</span></li>
+        <li><div><b>Editor screening</b><br><span class="muted">The handling editor decides whether the paper goes to review.</span></div><span class="t">≈ 1 day</span></li>
+        <li><div><b>Peer review</b><br><span class="muted">Independent reviewers assess method, evidence and clarity.</span></div><span class="t">4–5 days</span></li>
+        <li><div><b>Decision</b><br><span class="muted">Accept, revise or reject, with reviewer comments. First decision in about 8 days in total.</span></div><span class="t">≈ 1 day</span></li>
+        <li><div><b>Revision</b><br><span class="muted">Authors respond point by point; the editor may return it to reviewers.</span></div><span class="t">as agreed</span></li>
+        <li><div><b>Publication</b><br><span class="muted">Typesetting, article ID and DOI assigned, paper published online.</span></div><span class="t">≈ 2 days</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- CURRENT -->
+<section class="panel" id="tab-current" hidden>
+  <div class="wrap">
+    <div class="pagehead"><span class="eyebrow">Current issue</span><h1>Volume 1, Issue 2</h1></div>
+    <dl class="tblock">
+      <div><dt>Volume</dt><dd>1</dd></div>
+      <div><dt>Issue</dt><dd>2</dd></div>
+      <div><dt>Published</dt><dd>October 2026</dd></div>
+      <div><dt>Papers</dt><dd id="cur-count">6</dd></div>
+      <div><dt>Article types</dt><dd>Research, Review, Case study</dd></div>
+    </dl>
+    <div class="prose"><p>This issue opens with work on infilled concrete frames in earthquakes and closes with a field study of contractor adoption of building information modelling. In between are papers on ground improvement, flood forecasting, effluent treatment and pavement materials.</p></div>
+    <div class="plist" id="current-list"></div>
+  </div>
+</section>
+
+<!-- ARCHIVE -->
+<section class="panel" id="tab-archive" hidden>
+  <div class="wrap">
+    <div class="pagehead"><span class="eyebrow">Archive</span><h1>All published papers</h1>
+      <p class="lede">Search by title, abstract or keyword, then narrow by subject area or issue.</p></div>
+    <div class="filters">
+      <div class="f-q"><label for="q">Search</label><input id="q" type="search" placeholder="e.g. flood, stone columns, retrofit"></div>
+      <div><label for="f-issue">Issue</label>
+        <select id="f-issue"><option value="">All issues</option><option value="2">Vol 1, Issue 2 (Oct 2026)</option><option value="1">Vol 1, Issue 1 (Apr 2026)</option></select></div>
+      <div><label for="f-type">Article type</label>
+        <select id="f-type"><option value="">All types</option></select></div>
+      <div><label for="f-sort">Sort by</label>
+        <select id="f-sort"><option value="new">Newest first</option><option value="title">Title A–Z</option></select></div>
+    </div>
+    <div class="chips" id="area-chips" role="group" aria-label="Subject area"></div>
+    <p class="muted" id="count" aria-live="polite"></p>
+    <div class="plist" id="archive-list"></div>
+  </div>
+</section>
+
+<!-- SUBMIT -->
+<section class="panel" id="tab-submit" hidden>
+  <div class="wrap">
+    <div class="pagehead"><span class="eyebrow">Submit paper</span><h1>Send us your manuscript</h1>
+      <p class="lede">Fill in the form below. It prepares a complete submission record for the editorial office. Read the author guidelines first if this is your first submission.</p></div>
+    <div class="note">This page cannot send email on its own. After you press the button you will get your submission record to copy and email to the editorial office together with your manuscript file.</div>
+    <form class="sub" id="sub-form" novalidate>
+      <div><label for="s-title">Manuscript title</label><input id="s-title" type="text" autocomplete="off"><div class="err" id="e-title"></div></div>
+      <div class="two">
+        <div><label for="s-type">Article type</label><select id="s-type"></select></div>
+        <div><label for="s-area">Subject area</label><select id="s-area"></select></div>
+      </div>
+      <div><label for="s-abs">Abstract</label><textarea id="s-abs"></textarea>
+        <div class="hint"><span id="wc">0</span> words · 150 to 300 words</div><div class="err" id="e-abs"></div></div>
+      <div><label for="s-kw">Keywords</label><input id="s-kw" type="text" placeholder="4 to 6 keywords separated by commas"><div class="err" id="e-kw"></div></div>
+      <div class="two">
+        <div><label for="s-name">Corresponding author</label><input id="s-name" type="text" autocomplete="name"><div class="err" id="e-name"></div></div>
+        <div><label for="s-email">Email</label><input id="s-email" type="email" autocomplete="email"><div class="err" id="e-email"></div></div>
+      </div>
+      <div class="two">
+        <div><label for="s-aff">Affiliation</label><input id="s-aff" type="text" autocomplete="organization"><div class="err" id="e-aff"></div></div>
+        <div><label for="s-co">Co-authors (optional)</label><input id="s-co" type="text" placeholder="Names and affiliations"></div>
+      </div>
+      <div><label for="s-link">Link to manuscript file</label><input id="s-link" type="url" placeholder="https://… (shared Drive, OneDrive or Overleaf link)">
+        <div class="hint">Anonymised PDF or Word file. You can also attach the file when you email the record.</div><div class="err" id="e-link"></div></div>
+      <div><label for="s-cover">Cover letter (optional)</label><textarea id="s-cover" style="min-height:90px"></textarea></div>
+      <label class="check" for="s-orig"><input id="s-orig" type="checkbox"><span>This work is original and is not under review elsewhere.</span></label>
+      <label class="check" for="s-eth"><input id="s-eth" type="checkbox"><span>All authors have approved the submission and it follows the journal's publication ethics policy.</span></label>
+      <div class="err" id="e-check"></div>
+      <div><button class="btn" type="submit">Prepare submission record</button></div>
+    </form>
+    <div class="result" id="result" hidden>
+      <h2>Your submission record is ready</h2>
+      <p>Nothing has been sent yet. Copy the record below and email it, with your manuscript file, to the editorial office.</p>
+      <div class="emailbox"><code id="to-email">antothomass2024@gmail.com</code><button class="btn ghost small" type="button" data-copy-el="to-email">Copy address</button><span class="muted" aria-live="polite"></span></div>
+      <label for="record" class="eyebrow" style="margin:0">Submission record</label>
+      <textarea id="record" readonly></textarea>
+      <div class="row"><button class="btn" type="button" id="copy-record">Copy record</button><button class="btn ghost" type="button" id="again">Start another submission</button><span class="muted" id="copy-msg" aria-live="polite"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOARD -->
+<section class="panel" id="tab-board" hidden>
+  <div class="wrap">
+    <div class="pagehead"><span class="eyebrow">Editorial board</span><h1>The people who run the journal</h1>
+      <p class="lede">Editors are practising engineers and researchers who handle papers in their own field. Dashed cards mark seats where names and institutions are still to be entered.</p></div>
+    <div class="grid" id="board-grid"></div>
+    <div class="band"><span class="eyebrow">Reviewers wanted</span><h3>Join the reviewer pool</h3>
+      <p>We invite engineers with a publication record in any of the eight subject areas to review. Reviewers are acknowledged annually in the October issue.</p>
+      <div><a class="btn ghost" href="#contact" data-go="contact">Contact the editorial office</a></div></div>
+  </div>
+</section>
+
+<!-- GUIDELINES -->
+<section class="panel" id="tab-guidelines" hidden>
+  <div class="wrap">
+    <div class="pagehead"><span class="eyebrow">Author guidelines</span><h1>Preparing your manuscript</h1>
+      <p class="lede">Follow these rules before you submit. Papers that do not meet them are returned without review.</p></div>
+    <div>
+      <h2 style="margin-bottom:12px">Article types and length</h2>
+      <div class="scroll"><table>
+        <thead><tr><th>Type</th><th>Purpose</th><th>Length</th><th>Abstract</th></tr></thead>
+        <tbody>
+          <tr><td><b>Research article</b></td><td>Original theoretical, numerical, laboratory or field study</td><td class="num">up to 8,000 words</td><td class="num">150–300 words</td></tr>
+          <tr><td><b>Review paper</b></td><td>Critical synthesis of published work with a clear search method</td><td class="num">up to 10,000 words</td><td class="num">150–300 words</td></tr>
+          <tr><td><b>Case study</b></td><td>Documented project or site, with lessons for practice</td><td class="num">up to 6,000 words</td><td class="num">150–250 words</td></tr>
+          <tr><td><b>Technical note</b></td><td>Short result, method refinement or data set</td><td class="num">up to 3,000 words</td><td class="num">100–150 words</td></tr>
+        </tbody></table></div>
+    </div>
+    <div>
+      <h2 style="margin-bottom:12px">Publication charges</h2>
+      <div class="scroll"><table>
+        <thead><tr><th>Authors</th><th>Publication</th><th>DOI</th><th>Total with DOI</th></tr></thead>
+        <tbody>
+          <tr><td><b>India</b></td><td class="num">₹700</td><td class="num">₹600</td><td class="num">₹1,300</td></tr>
+          <tr><td><b>International</b></td><td class="num">USD 12</td><td class="num">USD 8</td><td class="num">USD 20</td></tr>
+        </tbody></table></div>
+    </div>
+    <div class="cols">
+      <div class="prose">
+        <h3 style="margin-top:0">Format</h3>
+        <ul>
+          <li>A4 page, single column, 11 pt serif font, 1.5 line spacing, numbered lines.</li>
+          <li>Order: title, abstract, keywords, introduction, methods, results, discussion, conclusions, data availability, references.</li>
+          <li>Title page with author details is uploaded separately. The main file must be anonymous.</li>
+          <li>SI units throughout. Define every symbol where it first appears.</li>
+          <li>Equations numbered in parentheses on the right.</li>
+        </ul>
+        <h3>Figures and tables</h3>
+        <ul>
+          <li>Figures at 300 dpi or vector, with axis titles and units. Do not rely on colour alone.</li>
+          <li>Tables are editable text, not images. Each has a caption above it.</li>
+          <li>State the source of any figure or data that is not your own and confirm permission.</li>
+        </ul>
+        <h3>References</h3>
+        <p>Use APA 7th edition author–date style. Cite standards and codes with their issuing body, number and year, for example <span class="mono">IS 456:2000</span> or <span class="mono">Eurocode 2</span>.</p>
+        <h3>Data and code</h3>
+        <p>Provide the data behind each figure, or explain why you cannot. Numerical models should list software, version, mesh or grid size, boundary conditions and calibration data.</p>
+        <h3>Ethics and originality</h3>
+        <ul>
+          <li>Similarity screening is applied to every submission. Overlap above 15% excluding references prompts a query to the authors.</li>
+          <li>Authorship is limited to people who made a substantial contribution and approved the final text.</li>
+          <li>Disclose funding and conflicts of interest. Field work needs the landowner or agency permissions noted.</li>
+          <li>Publication ethics follow the principles set out by the Committee on Publication Ethics (COPE).</li>
+        </ul>
+      </div>
+      <aside class="aside">
+        <h3>Submission checklist</h3>
+        <div>☐ Anonymous main file</div><div>☐ Separate title page</div><div>☐ Abstract and 4–6 keywords</div>
+        <div>☐ Figures at 300 dpi</div><div>☐ References in APA 7th</div><div>☐ Data availability statement</div>
+        <div>☐ Funding and conflicts declared</div>
+        <a class="btn" href="#submit" data-go="submit">Go to submission form</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="panel" id="tab-contact" hidden>
+  <div class="wrap">
+    <div class="pagehead"><span class="eyebrow">Contact</span><h1>Reach the editorial office</h1>
+      <p class="lede">We read every message. Please include your manuscript ID when writing about a submitted paper.</p></div>
+    <div class="cols">
+      <div style="display:grid;gap:20px;align-content:start">
+        <div><span class="eyebrow">Editorial enquiries</span>
+          <div class="emailbox" style="margin-top:8px"><code id="c-email">antothomass2024@gmail.com</code><button class="btn ghost small" type="button" data-copy-el="c-email">Copy</button><span class="muted" id="c-msg" aria-live="polite"></span></div></div>
+        <div><span class="eyebrow">Contact person</span><p style="margin-top:8px"><b>Dr. Heiling Bernot</b><br>Editorial contact, CEER Journal</p></div>
+        <div><span class="eyebrow">Response time</span><p style="margin-top:8px">We reply by email.</p></div>
+      </div>
+      <div class="faq">
+        <h2 style="margin-bottom:8px">Frequently asked questions</h2>
+        <details><summary>Is there a fee to publish?</summary><p>Yes. Authors from India pay ₹700 for publication plus ₹600 for the DOI, ₹1,300 in total. International authors pay USD 12 for publication plus USD 8 for the DOI, USD 20 in total.</p></details>
+        <details><summary>How long does review take?</summary><p>Review is quick: a decision in about 8 days, and publication about 2 days after that.</p></details>
+        <details><summary>Do you accept conference extensions?</summary><p>Yes, if the journal paper adds substantial new work and cites the conference version.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b style="color:var(--ink);font-family:var(--serif)">CEER Journal</b><br>Civil &amp; Environmental Engineering Research<br>© 2026 CEER Journal. Articles are open access.</div>
+    <nav aria-label="Footer">
+      <a href="#about" data-go="about">About</a><a href="#current" data-go="current">Current issue</a><a href="#archive" data-go="archive">Archive</a>
+      <a href="#submit" data-go="submit">Submit</a><a href="#guidelines" data-go="guidelines">Guidelines</a><a href="#contact" data-go="contact">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+var AREAS=["Structural Engineering","Geotechnical Engineering","Water Resources & Hydrology","Environmental Engineering","Transportation Engineering","Construction Management","Sustainable Materials","Climate & Resilience"];
+var AREA_NOTE={"Structural Engineering":"Seismic, bridges, retrofit","Geotechnical Engineering":"Soils, slopes, ground improvement","Water Resources & Hydrology":"Rivers, floods, groundwater","Environmental Engineering":"Treatment, waste, emissions","Transportation Engineering":"Pavements, traffic, mobility","Construction Management":"Delivery, BIM, productivity","Sustainable Materials":"Low-carbon concrete, LCA","Climate & Resilience":"Adaptation and risk"};
+var TYPES=["Research Article","Review Paper","Case Study","Technical Note"];
+var PAPERS=[
+{id:"CEER-2026-2-01",issue:2,type:"Research Article",area:"Structural Engineering",title:"Seismic Fragility Assessment of Reinforced Concrete Frames with Infill Walls under Near-Fault Ground Motions",authors:"Author A, Author B, Author C",pages:"1–18",kw:["seismic fragility","masonry infill","near-fault","RC frames"],abs:"Incremental dynamic analysis is applied to mid-rise reinforced concrete frames with and without masonry infill panels. Fragility curves show how the panels change the sequence of damage states and where damage concentrates as shaking intensity grows."},
+{id:"CEER-2026-2-02",issue:2,type:"Research Article",area:"Geotechnical Engineering",title:"Settlement Behaviour of Soft Clay Improved with Stone Columns and Geosynthetic Encasement",authors:"Author D, Author E",pages:"19–38",kw:["stone columns","soft clay","geosynthetics","settlement"],abs:"Large-scale unit-cell tests compare ordinary and encased stone columns in soft clay under staged loading. The study reports settlement, bulging and load sharing, and compares the results with a simple design method."},
+{id:"CEER-2026-2-03",issue:2,type:"Research Article",area:"Water Resources & Hydrology",title:"Machine Learning Ensembles for Short-Term Streamflow Forecasting in Monsoon-Dominated Catchments",authors:"Author F, Author G, Author H",pages:"39–55",kw:["streamflow","forecasting","ensemble learning","monsoon"],abs:"Several data-driven models are trained on daily rainfall and discharge records and combined into ensembles. Forecast skill is compared across lead times, with attention to peak flows and to periods when the models fail."},
+{id:"CEER-2026-2-04",issue:2,type:"Research Article",area:"Environmental Engineering",title:"Removal of Heavy Metals from Industrial Effluent Using Biochar Derived from Agricultural Residues",authors:"Author I, Author J",pages:"56–74",kw:["biochar","adsorption","heavy metals","effluent"],abs:"Biochar produced from crop residues at different pyrolysis temperatures is tested as an adsorbent for metal-bearing effluent. Batch and column experiments examine capacity, kinetics and regeneration."},
+{id:"CEER-2026-2-05",issue:2,type:"Review Paper",area:"Transportation Engineering",title:"Pavement Performance of Plastic-Modified Bituminous Mixes: A Review of Field Evidence",authors:"Author K, Author L",pages:"75–97",kw:["pavement","waste plastic","bitumen","field performance"],abs:"This review collects field trials of bituminous mixes modified with waste plastic and compares reported rutting, cracking and ageing behaviour. It separates laboratory promise from evidence of long-term service and lists open questions."},
+{id:"CEER-2026-2-06",issue:2,type:"Case Study",area:"Construction Management",title:"Building Information Modelling Adoption Barriers in Small and Medium Contractors",authors:"Author M, Author N, Author O",pages:"98–112",kw:["BIM","contractors","technology adoption","SMEs"],abs:"Interviews and a survey of small and medium contractors identify what slows the adoption of building information modelling on site. The paper groups the barriers by cost, skills and client demand and suggests staged entry points."},
+{id:"CEER-2026-1-01",issue:1,type:"Research Article",area:"Sustainable Materials",title:"Compressive and Durability Properties of Concrete with Fly Ash and Ground Granulated Blast-Furnace Slag Blends",authors:"Author P, Author Q",pages:"1–20",kw:["fly ash","GGBS","durability","low-carbon concrete"],abs:"Concrete mixes with binary and ternary blends of fly ash and slag are tested for strength development, chloride penetration and sorptivity. The results indicate which replacement levels keep early-age strength acceptable."},
+{id:"CEER-2026-1-02",issue:1,type:"Research Article",area:"Climate & Resilience",title:"Urban Flood Risk Mapping Using Hydrodynamic Modelling and Open Elevation Data",authors:"Author R, Author S, Author T",pages:"21–37",kw:["urban flooding","hydrodynamic model","DEM","risk mapping"],abs:"A two-dimensional hydrodynamic model driven by open elevation data is used to map flood depth and hazard in a dense urban catchment. The paper tests how the resolution of the elevation data changes the mapped extent."},
+{id:"CEER-2026-1-03",issue:1,type:"Research Article",area:"Structural Engineering",title:"Retrofitting of Corroded Bridge Piers with Fibre-Reinforced Polymer Wrapping: Experimental Evidence",authors:"Author U, Author V",pages:"38–58",kw:["bridge piers","corrosion","FRP wrapping","retrofit"],abs:"Corroded reinforced concrete pier specimens are wrapped with fibre-reinforced polymer and loaded to failure. The tests compare strength, ductility and failure mode against unwrapped and undamaged references."},
+{id:"CEER-2026-1-04",issue:1,type:"Review Paper",area:"Environmental Engineering",title:"Life-Cycle Greenhouse Gas Accounting for Decentralised Wastewater Treatment Systems",authors:"Author W, Author X, Author Y",pages:"59–80",kw:["life-cycle assessment","wastewater","greenhouse gas","decentralised treatment"],abs:"Published life-cycle studies of decentralised wastewater systems are compared on boundaries, functional units and emission factors. The review shows why reported results are hard to compare and proposes a common reporting template."},
+{id:"CEER-2026-1-05",issue:1,type:"Technical Note",area:"Geotechnical Engineering",title:"Rainfall-Induced Slope Instability along Hill Roads: A Monitoring Note",authors:"Author Z, Author AA",pages:"81–90",kw:["slope stability","rainfall","monitoring","hill roads"],abs:"A short monitoring programme on a cut slope records pore pressure and displacement through a wet season. The note describes the instruments used and the rainfall pattern that preceded movement."},
+{id:"CEER-2026-1-06",issue:1,type:"Case Study",area:"Water Resources & Hydrology",title:"Groundwater Recharge Potential of Check Dams in Semi-Arid Watersheds",authors:"Author AB, Author AC",pages:"91–108",kw:["check dams","groundwater recharge","semi-arid","watershed"],abs:"Water-level records from wells near a series of check dams are analysed before and after construction. The study estimates recharge benefit and discusses siltation and maintenance."}
+];
+var ISSUE_LABEL={2:"Vol. 1, Issue 2 · Oct 2026",1:"Vol. 1, Issue 1 · Apr 2026"};
+var ISSUE_YEAR={2:2026,1:2026};
+
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+/* ---- contour lines ---- */
+function drawContours(){
+  var hills=[{x:640,y:210,n:11,s:24,p:1.3,q:.4},{x:830,y:340,n:7,s:21,p:2.1,q:1.1}],out="";
+  hills.forEach(function(h){
+    for(var k=1;k<=h.n;k++){
+      var r=k*h.s,d="";
+      for(var i=0;i<=96;i++){
+        var t=i/96*Math.PI*2;
+        var w=1+.14*Math.sin(3*t+h.p+k*.12)+.08*Math.sin(5*t+h.q-k*.1)+.05*Math.sin(2*t+k*.3);
+        d+=(i?"L":"M")+(h.x+Math.cos(t)*r*w*1.35).toFixed(1)+" "+(h.y+Math.sin(t)*r*w*.8).toFixed(1);
+      }
+      out+='<path d="'+d+'Z"'+(k%5===0?' class="idx"':'')+'/>';
+      if(k%5===0){
+        var t0=-.35,w0=1+.14*Math.sin(3*t0+h.p+k*.12)+.08*Math.sin(5*t0+h.q-k*.1)+.05*Math.sin(2*t0+k*.3);
+        out+='<text x="'+(h.x+Math.cos(t0)*r*w0*1.35-16).toFixed(1)+'" y="'+(h.y+Math.sin(t0)*r*w0*.8+4).toFixed(1)+'">RL '+(100+k*2)+'.0</text>';
+      }
+    }
+  });
+  $("contours").innerHTML=out;
+}
+
+/* ---- paper card ---- */
+function card(p){
+  var el=document.createElement("article");el.className="paper";
+  el.innerHTML='<div class="row"><span class="tag type">'+esc(p.type)+'</span><span class="tag">'+esc(p.area)+'</span></div>'
+   +'<h3>'+esc(p.title)+'</h3>'
+   +'<div class="authors">'+esc(p.authors)+'</div>'
+   +'<div class="mono muted">'+esc(ISSUE_LABEL[p.issue])+' · pp. '+esc(p.pages)+' · '+esc(p.id)+'</div>'
+   +'<details><summary>Abstract</summary><p>'+esc(p.abs)+'</p></details>'
+   +'<div class="kw">'+p.kw.map(function(k){return '<span>#'+esc(k)+'</span>'}).join("")+'</div>'
+   +'<div class="row"><button type="button" class="btn ghost small" data-cite="'+esc(p.id)+'">Copy citation</button><span class="muted" data-cite-msg="'+esc(p.id)+'" aria-live="polite"></span></div>';
+  return el;
+}
+function fill(id,list){var box=$(id);box.innerHTML="";list.forEach(function(p){box.appendChild(card(p))})}
+function citation(p){
+  var issue=p.issue;
+  return p.authors+" ("+ISSUE_YEAR[issue]+"). "+p.title+". CEER Journal, 1("+issue+"), "+p.pages.replace("–","–")+". Article ID "+p.id+".";
+}
+
+/* ---- copy helper ---- */
+function copyText(text,msgEl,source){
+  function fallback(){
+    if(source){try{source.focus();source.select()}catch(e){}}
+    if(msgEl)msgEl.textContent="Select the text and copy it";
+  }
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){if(msgEl){msgEl.textContent="Copied";setTimeout(function(){msgEl.textContent=""},2200)}},fallback);
+    }else fallback();
+  }catch(e){fallback()}
+}
+
+/* ---- home ---- */
+function renderHome(){
+  var box=$("areas");box.innerHTML="";
+  AREAS.forEach(function(a){
+    var n=PAPERS.filter(function(p){return p.area===a}).length;
+    var b=document.createElement("button");b.type="button";b.className="area";
+    b.innerHTML='<strong>'+esc(a)+'</strong><span>'+esc(AREA_NOTE[a])+'</span><span class="mono">'+n+(n===1?" paper":" papers")+'</span>';
+    b.addEventListener("click",function(){state.area=a;syncChips();show("archive");renderArchive()});
+    box.appendChild(b);
+  });
+  fill("latest",PAPERS.slice(0,3));
+  fill("current-list",PAPERS.filter(function(p){return p.issue===2}));
+  $("cur-count").textContent=PAPERS.filter(function(p){return p.issue===2}).length;
+}
+
+/* ---- archive ---- */
+var state={q:"",area:"",issue:"",type:"",sort:"new"};
+function buildChips(){
+  var box=$("area-chips");box.innerHTML="";
+  ["All areas"].concat(AREAS).forEach(function(a,i){
+    var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=a;b.dataset.area=i?a:"";
+    b.addEventListener("click",function(){state.area=b.dataset.area;syncChips();renderArchive()});
+    box.appendChild(b);
+  });
+  TYPES.forEach(function(t){var o=document.createElement("option");o.value=t;o.textContent=t;$("f-type").appendChild(o)});
+  syncChips();
+}
+function syncChips(){
+  Array.prototype.forEach.call($("area-chips").children,function(b){b.setAttribute("aria-pressed",String(b.dataset.area===state.area))});
+}
+function renderArchive(){
+  var q=state.q.trim().toLowerCase();
+  var list=PAPERS.filter(function(p){
+    if(state.area&&p.area!==state.area)return false;
+    if(state.issue&&String(p.issue)!==state.issue)return false;
+    if(state.type&&p.type!==state.type)return false;
+    if(q){var hay=(p.title+" "+p.abs+" "+p.kw.join(" ")+" "+p.authors).toLowerCase();if(hay.indexOf(q)<0)return false}
+    return true;
+  });
+  if(state.sort==="title")list.sort(function(a,b){return a.title.localeCompare(b.title)});
+  else list.sort(function(a,b){return b.issue-a.issue||a.id.localeCompare(b.id)});
+  $("count").textContent=list.length+(list.length===1?" paper":" papers")+" shown";
+  var box=$("archive-list");box.innerHTML="";
+  if(!list.length){box.innerHTML='<div class="empty">No papers match these filters. Clear the search or choose another area.</div>';return}
+  list.forEach(function(p){box.appendChild(card(p))});
+}
+
+/* ---- board ---- */
+function renderBoard(){
+  var box=$("board-grid");box.innerHTML="";
+  var seats=[{role:"Editor-in-Chief",area:"All areas"}].concat(AREAS.map(function(a){return {role:"Associate Editor",area:a}}));
+  seats.push({role:"Managing Editor",area:"Editorial office"});
+  seats.forEach(function(s){
+    var d=document.createElement("div");d.className="person";
+    d.innerHTML='<span class="role">'+esc(s.role)+'</span><strong>Name to be added</strong><span>'+esc(s.area)+'</span><span>Institution, Country</span>';
+    box.appendChild(d);
+  });
+}
+
+/* ---- submit form ---- */
+function fillSelect(id,arr){var s=$(id);arr.forEach(function(v){var o=document.createElement("option");o.value=v;o.textContent=v;s.appendChild(o)})}
+function words(s){var m=s.trim().match(/\S+/g);return m?m.length:0}
+function setErr(id,msg){$(id).textContent=msg||""}
+function initForm(){
+  fillSelect("s-type",TYPES);fillSelect("s-area",AREAS);
+  $("s-abs").addEventListener("input",function(){$("wc").textContent=words($("s-abs").value)});
+  $("sub-form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var v=function(id){return $(id).value.trim()},bad=false;
+    ["e-title","e-abs","e-kw","e-name","e-email","e-aff","e-link","e-check"].forEach(function(i){setErr(i,"")});
+    function need(c,id,m){if(!c){setErr(id,m);bad=true}}
+    need(v("s-title").length>=10,"e-title","Enter the full manuscript title.");
+    var wc=words($("s-abs").value);
+    need(wc>=150&&wc<=300,"e-abs","The abstract has "+wc+" words. It must be between 150 and 300.");
+    var kws=v("s-kw").split(",").map(function(k){return k.trim()}).filter(Boolean);
+    need(kws.length>=4&&kws.length<=6,"e-kw","Give 4 to 6 keywords separated by commas.");
+    need(v("s-name").length>=3,"e-name","Enter the corresponding author's name.");
+    need(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v("s-email")),"e-email","Enter a valid email address.");
+    need(v("s-aff").length>=3,"e-aff","Enter the affiliation.");
+    if(v("s-link"))need(/^https?:\/\/\S+\.\S+/.test(v("s-link")),"e-link","Enter a full link starting with https://");
+    need($("s-orig").checked&&$("s-eth").checked,"e-check","Tick both declarations to continue.");
+    if(bad){var first=document.querySelector("#sub-form .err:not(:empty)");if(first)first.scrollIntoView({block:"center"});return}
+    var ref="CEER-"+new Date().getFullYear()+"-"+Math.random().toString(36).slice(2,7).toUpperCase();
+    var rec=["CEER JOURNAL - SUBMISSION RECORD","Reference: "+ref,"Prepared: "+new Date().toISOString().slice(0,10),"",
+      "Title: "+v("s-title"),"Article type: "+$("s-type").value,"Subject area: "+$("s-area").value,"Keywords: "+kws.join(", "),"",
+      "Corresponding author: "+v("s-name"),"Email: "+v("s-email"),"Affiliation: "+v("s-aff"),"Co-authors: "+(v("s-co")||"none listed"),
+      "Manuscript link: "+(v("s-link")||"file attached to email"),"","Abstract:",v("s-abs"),"","Cover letter:",(v("s-cover")||"none"),"",
+      "Declarations: original work, not under review elsewhere; all authors approved; publication ethics policy accepted."].join("\n");
+    $("record").value=rec;$("result").hidden=false;$("sub-form").hidden=true;
+    $("result").scrollIntoView({block:"start"});
+  });
+  $("copy-record").addEventListener("click",function(){copyText($("record").value,$("copy-msg"),$("record"))});
+  $("again").addEventListener("click",function(){
+    $("sub-form").reset();$("wc").textContent="0";$("result").hidden=true;$("sub-form").hidden=false;$("copy-msg").textContent="";
+    window.scrollTo(0,0);
+  });
+}
+
+/* ---- routing ---- */
+var TABS=["home","about","current","archive","submit","board","guidelines","contact"];
+function show(id){
+  if(TABS.indexOf(id)<0)id="home";
+  TABS.forEach(function(t){$("tab-"+t).hidden=(t!==id)});
+  Array.prototype.forEach.call(document.querySelectorAll(".tabs a"),function(a){
+    if(a.dataset.go===id)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+  });
+  var act=document.querySelector('.tabs a[aria-current="page"]');
+  if(act&&act.scrollIntoView){try{act.scrollIntoView({block:"nearest",inline:"center"})}catch(e){}}
+  window.scrollTo(0,0);
+}
+document.addEventListener("click",function(e){
+  var g=e.target.closest("[data-go]");
+  if(g){e.preventDefault();var id=g.dataset.go;show(id);try{history.replaceState(null,"","#"+id)}catch(x){}return}
+  var c=e.target.closest("[data-cite]");
+  if(c){
+    var p=PAPERS.filter(function(x){return x.id===c.dataset.cite})[0];
+    var msg=c.parentNode.querySelector("[data-cite-msg]");
+    if(p){
+      var ta=document.createElement("textarea");ta.value=citation(p);ta.style.cssText="position:fixed;opacity:0;pointer-events:none";document.body.appendChild(ta);
+      copyText(ta.value,msg,null);setTimeout(function(){ta.remove()},50);
+    }
+    return;
+  }
+  var ce=e.target.closest("[data-copy-el]");
+  if(ce){
+    var src=$(ce.dataset.copyEl);var m=ce.parentNode.querySelector(".muted")||$("copy-msg");
+    var m2=ce.parentNode.querySelector("span.muted");
+    copyText(src.textContent,m2,null);
+  }
+});
+window.addEventListener("hashchange",function(){show(location.hash.slice(1))});
+
+/* ---- start ---- */
+drawContours();renderHome();buildChips();renderArchive();renderBoard();initForm();
+$("q").addEventListener("input",function(e){state.q=e.target.value;renderArchive()});
+$("f-issue").addEventListener("change",function(e){state.issue=e.target.value;renderArchive()});
+$("f-type").addEventListener("change",function(e){state.type=e.target.value;renderArchive()});
+$("f-sort").addEventListener("change",function(e){state.sort=e.target.value;renderArchive()});
+show(location.hash.slice(1));
+})();
+</script>
+
+</body></html>
